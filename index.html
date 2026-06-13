@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MapME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/ui/window/window.css" />
+  <link rel="stylesheet" href="src/styles.css" />
+</head>
+<body>
+  <div id="pretty-window">
+
+    <!-- Pretty Kit Titlebar -->
+    <div id="pretty-titlebar" data-draggable="true">
+      <span id="pretty-icon">
+        <img src="/images/icon.png" style="width: 25px; height: auto;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';" />
+        <span style="display:none;font-size:20px;">🗺️</span>
+      </span>
+      <span id="pretty-title">MapME</span>
+      <div id="pretty-controls" data-draggable="false">
+        <button class="pk-btn pk-btn--minimize" id="pk-minimize" title="Minimize">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <button class="pk-btn pk-btn--maximize" id="pk-maximize" title="Maximize">
+          <svg id="pk-max-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="5" y="5" width="14" height="14" rx="1"/></svg>
+          <svg id="pk-restore-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display:none;"><rect x="8" y="4" width="12" height="12" rx="1"/><path d="M4 8v12h12"/></svg>
+        </button>
+        <button class="pk-btn pk-btn--close" id="pk-close" title="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-map" data-tab="map">🗺️ Map</button>
+      <button class="tab-btn" id="tab-prompt" data-tab="prompt">📝 Doc Prompt</button>
+    </div>
+
+    <!-- Main Content -->
+    <div id="pretty-content">
+
+      <!-- ── TAB: MAP ── -->
+      <div class="tab-panel active" id="panel-map">
+
+        <!-- Control Panel -->
+        <div class="pk-panel control-panel">
+          <div class="control-row">
+            <button id="file-picker-btn" class="holo-btn">
+              📄 Select File
+            </button>
+            <span id="selected-file" class="file-name">No file selected</span>
+            
+            <button id="scan-btn" class="holo-btn" disabled>
+              ⚡ Scan File
+            </button>
+            <button id="copy-btn" class="holo-btn holo-btn--success" disabled>
+              📋 Copy
+            </button>
+            <button id="export-btn" class="holo-btn holo-btn--success" disabled>
+              💾 Export .md
+            </button>
+            <button id="doc-prompt-btn" class="holo-btn" disabled>
+              📝 Doc Prompt
+            </button>
+          </div>
+          <div id="status-message" class="status-message" style="display:none;"></div>
+        </div>
+
+        <!-- Stats Bar (hidden initially) -->
+        <div id="stats-bar" class="pk-panel stats-bar" style="display:none;">
+          <span id="stats-language"></span>
+          <span id="stats-total"></span>
+          <span id="stats-documented"></span>
+        </div>
+
+        <!-- Results Panel (hidden initially) -->
+        <div id="results-panel" class="pk-panel results-panel" style="display:none;">
+          <div id="results-toggle" class="results-toggle">
+            <span class="toggle-arrow">▶</span> Module Map Preview
+          </div>
+          <pre id="preview-output" class="map-preview"></pre>
+        </div>
+
+      </div>
+
+      <!-- ── TAB: DOC PROMPT ── -->
+    <div class="tab-panel" id="panel-prompt">
+
+      <div class="pk-panel prompt-panel">
+        <div class="prompt-panel-header">
+          <span class="prompt-panel-title" style="margin-bottom: 20px;">📝 Documentation Prompt</span>
+        </div>
+        
+        <p class="prompt-hint margin-bottom-md" style="margin-bottom: 20px;">
+          Paste this prompt into your LLM of choice along with your source file. 
+          The LLM will return a fully documented version of your file using the 
+          exact comment format MapME can read.
+        </p>
+        
+        <div class="prompt-empty-state" id="prompt-empty-state">
+          <span>⚡ Scan a file first to generate a documentation prompt</span>
+        </div>
+        
+        <pre id="prompt-output" class="prompt-preview" style="display:none; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; overflow-x: hidden; max-width: 100%; width: 100%; box-sizing: border-box; margin-bottom: 20px;"></pre>
+        
+        <div class="prompt-panel-footer">
+          <button id="prompt-copy-btn" class="holo-btn holo-btn--success" disabled>
+            📋 Copy Prompt
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    </div>
+
+    <!-- Pretty Kit Statusbar -->
+    <div id="pretty-statusbar">
+      <div class="pk-status-left">
+        <span class="pk-status-dot"></span>
+        <span id="pk-status-text">READY</span>
+      </div>
+      <div class="pk-status-right">
+        <span>MapME v1.0</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Pretty Kit Window Control Script (inline) -->
+  <script>
+    function tauriCall(cmd) {
+      if (window.__TAURI__?.core?.invoke) return window.__TAURI__.core.invoke(cmd);
+      if (window.__TAURI_INTERNALS__?.invoke) return window.__TAURI_INTERNALS__.invoke(cmd);
+      return Promise.reject('Tauri not available');
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const minBtn = document.getElementById('pk-minimize');
+      const maxBtn = document.getElementById('pk-maximize');
+      const closeBtn = document.getElementById('pk-close');
+      const maxIcon = document.getElementById('pk-max-icon');
+      const restoreIcon = document.getElementById('pk-restore-icon');
+      const titlebar = document.getElementById('pretty-titlebar');
+      if (minBtn) minBtn.addEventListener('click', (e) => { e.stopPropagation(); tauriCall('plugin:window|minimize'); });
+      if (maxBtn) maxBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const isMax = await tauriCall('plugin:window|is_maximized');
+        if (isMax) {
+          await tauriCall('plugin:window|unmaximize');
+          if (maxIcon) maxIcon.style.display = '';
+          if (restoreIcon) restoreIcon.style.display = 'none';
+        } else {
+          await tauriCall('plugin:window|maximize');
+          if (maxIcon) maxIcon.style.display = 'none';
+          if (restoreIcon) restoreIcon.style.display = '';
+        }
+      });
+      if (closeBtn) closeBtn.addEventListener('click', (e) => { e.stopPropagation(); tauriCall('plugin:window|close'); });
+      if (titlebar) titlebar.addEventListener('dblclick', (e) => { if (!e.target.closest('button')) maxBtn?.click(); });
+      tauriCall('plugin:window|is_maximized').then(isMax => {
+        if (maxIcon && restoreIcon) {
+          maxIcon.style.display = isMax ? 'none' : '';
+          restoreIcon.style.display = isMax ? '' : 'none';
+        }
+      }).catch(() => {});
+    });
+  </script>
+
+  <!-- App Logic Module -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

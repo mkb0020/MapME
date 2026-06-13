@@ -1,0 +1,567 @@
+/* ============================================
+   MapME – Cyberpunk / Dark Aesthetic
+   ============================================ */
+
+:root {
+  --bg-deep: #170032;
+  --bg-mid: #37025a;
+  --accent-primary: #830cde;
+  --accent-light: #A55AFF;
+  --accent-purple: #764ba2;
+  --accent-blue: #667eea;
+  --text-light: #c4b5fd;
+  --accent-pink: #dc4ce8;
+  --accent-hotpink: #ff69b4;
+  --accent-cyan: #00ffff;
+  --accent-green: #67FEBD;
+  --accent-yellow: #fecd39;
+  --text-muted: #9090C0;
+  --border: #37025a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-light);
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ============================================
+   Pretty Kit Window Chrome (overrides)
+   ============================================ */
+#pretty-window {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+}
+
+#pretty-titlebar {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  background: var(--bg-mid);
+  padding: 0 8px;
+  user-select: none;
+  -webkit-app-region: drag;
+  border-bottom: 1px solid var(--border);
+}
+
+#pretty-icon {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+#pretty-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  flex: 1;
+}
+
+#pretty-controls {
+  display: flex;
+  gap: 4px;
+  -webkit-app-region: no-drag;
+}
+
+.pk-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pk-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.pk-btn:hover {
+  background: rgba(131, 12, 222, 0.2);
+  border-color: var(--accent-primary);
+  color: var(--accent-light);
+}
+
+.pk-btn--close:hover {
+  background: rgba(220, 76, 232, 0.3);
+  border-color: var(--accent-pink);
+  color: var(--accent-pink);
+}
+
+#pretty-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-deep);
+  min-height: 0;
+  min-width: 0;
+}
+
+#pretty-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+  padding: 0 10px;
+  background: var(--bg-mid);
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'Courier New', monospace;
+}
+
+.pk-status-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pk-status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-green);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--accent-green);
+  display: inline-block;
+}
+
+.pk-status-right {
+  font-family: 'Courier New', monospace;
+}
+
+/* ============================================
+   Tab Bar
+   ============================================ */
+.tab-bar {
+  display: flex;
+  background: var(--bg-mid);
+  border-bottom: 1px solid var(--accent-primary);
+  padding: 0 8px;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tab-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -1px;
+}
+
+.tab-btn:hover {
+  color: var(--accent-light);
+  background: rgba(131, 12, 222, 0.1);
+}
+
+.tab-btn.active {
+  color: var(--accent-cyan);
+  border-bottom-color: var(--accent-cyan);
+  background: rgba(0, 255, 255, 0.05);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+/* ============================================
+   Tab Panels
+   ============================================ */
+.tab-panel {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.tab-panel.active {
+  display: flex;
+}
+
+/* ============================================
+   Common Components
+   ============================================ */
+.pk-panel {
+  background: rgba(55, 2, 90, 0.25);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  min-width: 0;
+  max-width: 100%;
+}
+
+.holo-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border: 1px solid var(--accent-primary);
+  background: rgba(131, 12, 222, 0.15);
+  color: var(--accent-light);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 0 8px rgba(131, 12, 222, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.holo-btn:hover:not(:disabled) {
+  background: rgba(131, 12, 222, 0.3);
+  box-shadow: 0 0 18px var(--accent-primary);
+  color: #fff;
+  border-color: var(--accent-light);
+}
+
+.holo-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.holo-btn--success {
+  border-color: var(--accent-green);
+  background: rgba(103, 254, 189, 0.1);
+  color: var(--accent-green);
+  box-shadow: 0 0 8px rgba(103, 254, 189, 0.3);
+}
+
+.holo-btn--success:hover:not(:disabled) {
+  background: rgba(103, 254, 189, 0.25);
+  box-shadow: 0 0 18px var(--accent-green);
+  border-color: var(--accent-green);
+  color: #fff;
+}
+
+/* ============================================
+   Control Panel
+   ============================================ */
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0; 
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.file-name {
+  font-family: 'Courier New', monospace;
+  color: var(--text-muted);
+  font-size: 13px;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-message {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.status-info {
+  color: var(--text-light);
+  background: rgba(102, 126, 234, 0.1);
+  border: 1px solid var(--accent-blue);
+}
+
+.status-error {
+  color: var(--accent-pink);
+  background: rgba(220, 76, 232, 0.1);
+  border: 1px solid var(--accent-pink);
+}
+
+.status-success {
+  color: var(--accent-green);
+  background: rgba(103, 254, 189, 0.1);
+  border: 1px solid var(--accent-green);
+}
+
+/* ============================================
+   Stats Bar
+   ============================================ */
+.stats-bar {
+  display: flex;
+  gap: 24px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  color: var(--text-light);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.stats-bar span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============================================
+   Results Panel & Map Preview
+   ============================================ */
+.results-panel {
+  flex: 1;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.results-toggle {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+  user-select: none;
+}
+
+.toggle-arrow {
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.map-preview {
+  background: rgba(23, 0, 50, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--accent-green);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 150px;
+  box-shadow: inset 0 0 12px rgba(103, 254, 189, 0.08);
+  line-height: 1.5;
+  min-height: 0; /* ADD THIS — critical for flex scroll to work */
+}
+
+/* ============================================
+   Doc Prompt Tab Panel
+   ============================================ */
+.prompt-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.prompt-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.prompt-panel-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.prompt-hint {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.prompt-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 16px;
+  color: var(--text-muted);
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.prompt-preview {
+  background: rgba(23, 0, 50, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--accent-green);
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  line-height: 1.6;
+  box-shadow: inset 0 0 12px rgba(103, 254, 189, 0.05);
+}
+
+/* ============================================
+   Scrollbar styling
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-light);
+}
+
+.tab-panel {
+  display: none !important;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.tab-panel.active {
+  display: flex !important;
+}
+
+.tab-btn {
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  padding: 8px 16px !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  color: var(--text-muted) !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  margin-bottom: -1px !important;
+  border-radius: 0 !important;
+}
+
+.tab-btn:hover {
+  color: var(--accent-light) !important;
+  background: rgba(131, 12, 222, 0.1) !important;
+}
+
+.tab-btn.active {
+  color: var(--accent-cyan) !important;
+  border-bottom-color: var(--accent-cyan) !important;
+  background: rgba(0, 255, 255, 0.05) !important;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4) !important;
+}
+
+
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: nowrap; /* Forces everything to stay on one single line */
+  overflow-x: auto;  /* Just in case the window gets incredibly small */
+}
+
+.file-name {
+  font-family: 'Courier New', monospace;
+  color: var(--text-muted);
+  font-size: 13px;
+  max-width: 180px; /* Sized down slightly so buttons fit perfectly on standard windows */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;   /* Prevents the text box from crushing to zero width */
+}
+
+
+/* Generous spacing after the hint text */
+.margin-bottom-md {
+  margin-bottom: 20px;
+}
+
+/* Footer layout to hold the copy button at the bottom */
+.prompt-panel-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  flex-shrink: 0;
+}

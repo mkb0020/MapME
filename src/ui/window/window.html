@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';" />
+  <title>Pretty Kit</title>
+  <link rel="stylesheet" href="window.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PRETTY KIT — Window Shell
+       ═══════════════════════════════════════════════════════ -->
+
+  <div id="pretty-window" role="application" aria-label="Application Window">
+
+    <!-- ── Title Bar ────────────────────────────────────────── -->
+    <div id="pretty-titlebar"
+         data-draggable="true"
+         role="toolbar"
+         aria-label="Title bar">
+
+      <!-- App Icon -->
+      <img id="pretty-icon"
+           src=""
+           alt="App icon"
+           class="icon-placeholder"
+           aria-hidden="true"
+           onerror="this.style.display='none'" />
+
+      <!-- App Title -->
+      <span id="pretty-title" aria-live="polite">Pretty Kit</span>
+
+      <!-- Window Controls -->
+      <div id="pretty-controls"
+           data-draggable="false"
+           role="group"
+           aria-label="Window controls">
+
+        <!-- Minimize -->
+        <button class="pk-btn pk-btn--minimize"
+                id="pk-minimize"
+                aria-label="Minimize window"
+                title="Minimize">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <line x1="5" y1="12" x2="19" y2="12" />
+          </svg>
+        </button>
+
+        <!-- Maximize / Restore -->
+        <button class="pk-btn pk-btn--maximize"
+                id="pk-maximize"
+                aria-label="Maximize window"
+                title="Maximize">
+          <!-- Default: maximize icon -->
+          <svg id="pk-max-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="5" width="14" height="14" rx="1" />
+          </svg>
+          <!-- Restore icon (shown when maximized) -->
+          <svg id="pk-restore-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               xmlns="http://www.w3.org/2000/svg" style="display:none;">
+            <rect x="8" y="4" width="12" height="12" rx="1" />
+            <path d="M4 8v12h12" />
+          </svg>
+        </button>
+
+        <!-- Close -->
+        <button class="pk-btn pk-btn--close"
+                id="pk-close"
+                aria-label="Close window"
+                title="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <line x1="18" y1="6"  x2="6"  y2="18" />
+            <line x1="6"  y1="6"  x2="18" y2="18" />
+          </svg>
+        </button>
+
+      </div>
+    </div>
+    <!-- ── /Title Bar ─────────────────────────────────────── -->
+
+
+    <!-- ── Application Content Area ──────────────────────── -->
+    <!--
+      Inject your application UI into this div.
+      Example:
+        document.getElementById('pretty-content').innerHTML = myAppHTML;
+      Or load a component:
+        import { renderApp } from './app.js'; renderApp();
+    -->
+    <div id="pretty-content" role="main">
+      <!-- ↓↓↓ APPLICATION CONTENT GOES HERE ↓↓↓ -->
+    </div>
+    <!-- ── /Application Content Area ─────────────────────── -->
+
+
+    <!-- ── Status Bar (optional — remove if unneeded) ──────── -->
+    <div id="pretty-statusbar" aria-label="Status bar" role="status">
+      <div class="pk-status-left">
+        <span class="pk-status-dot" aria-hidden="true"></span>
+        <span id="pk-status-text">READY</span>
+      </div>
+      <div class="pk-status-right">
+        <span id="pk-status-version">v1.0.0</span>
+      </div>
+    </div>
+    <!-- ── /Status Bar ────────────────────────────────────── -->
+
+  </div>
+  <!-- ── /pretty-window ────────────────────────────────────── -->
+
+  <script src="window.js" type="module"></script>
+</body>
+</html>

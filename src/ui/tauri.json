@@ -1,0 +1,65 @@
+{
+  "_comment": "Pretty Kit — Tauri Window Configuration Snippet",
+  "_instructions": [
+    "Copy the object inside 'windows' into the 'windows' array of your tauri.conf.json.",
+    "For Tauri 2.x the key is 'app.windows'. For Tauri 1.x it is 'tauri.windows'.",
+    "Transparent support requires the 'macos-private-api' feature on macOS",
+    "and the 'transparent' Cargo feature on Windows (see README)."
+  ],
+
+  "windows": [
+    {
+      "label":            "main",
+      "title":            "Pretty Kit",
+      "url":              "src/ui/window/window.html",
+
+      "width":            1024,
+      "height":           680,
+      "minWidth":         480,
+      "minHeight":        320,
+
+      "resizable":        true,
+      "fullscreen":       false,
+      "center":           true,
+
+      "decorations":      false,
+      "transparent":      true,
+      "shadow":           false,
+
+      "visible":          true,
+      "focus":            true,
+      "alwaysOnTop":      false,
+      "skipTaskbar":      false,
+
+      "fileDropEnabled":  false,
+
+      "_note_macOS": "Add 'macOS: { privateApi: true }' at the app level to enable transparency on macOS.",
+      "_note_linux": "Transparency on Linux requires a compositor (e.g. picom). Set transparent:false if unsupported.",
+      "_note_windows": "Add the 'transparent' feature to tauri in Cargo.toml: tauri = { features = ['transparent'] }"
+    }
+  ],
+
+  "_tauri2_placement": {
+    "_description": "In tauri.conf.json for Tauri 2.x, nest windows under 'app':",
+    "app": {
+      "windows": ["<paste the object from 'windows[0]' above here>"]
+    }
+  },
+
+  "_tauri1_placement": {
+    "_description": "In tauri.conf.json for Tauri 1.x, nest windows under 'tauri':",
+    "tauri": {
+      "windows": ["<paste the object from 'windows[0]' above here>"]
+    }
+  },
+
+  "_cargo_toml_features": {
+    "_description": "Add these features to your Cargo.toml for full support:",
+    "tauri": {
+      "features": [
+        "transparent",
+        "macos-private-api"
+      ]
+    }
+  }
+}
